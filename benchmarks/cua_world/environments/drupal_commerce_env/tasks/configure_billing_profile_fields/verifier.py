@@ -64,6 +64,9 @@ def verify_configure_billing_profile_fields(traj, env_info, task_info):
     # It might be directly in overrides or nested differently depending on version, 
     # but strictly it should be key 'organization' with value 'required'
     org_setting = field_overrides.get('organization', 'optional') # default is usually optional or None
+    # The address module stores each override as {"override": "required"}.
+    if isinstance(org_setting, dict):
+        org_setting = org_setting.get('override', 'optional')
     
     if org_setting == expected_override:
         score += 30
